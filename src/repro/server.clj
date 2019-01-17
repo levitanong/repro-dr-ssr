@@ -17,15 +17,14 @@
              :content "IE=edge"}]
      [:meta {:name "viewport"
              :content "width=device-width, initial-scale=1"}]
-     [:title "Pythia"]
+     [:title "Repro"]
      (hiccup/raw head-content)]
     [:body
      [:div {:id "app"}
       (hiccup/raw body-content)]
      [:script {:type "text/javascript"
                :src "js/main.js"}]
-     [:script {:type "text/javascript"}
-      "pythia.core.init();"]]]))
+     ]]))
 
 (defn generate-index-html [state-db app-html]
   (let [initial-state-script (ssr/initial-state->script-tag state-db)]
