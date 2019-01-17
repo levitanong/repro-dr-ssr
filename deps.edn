@@ -1,0 +1,9 @@
+{:deps    {fulcrologic/fulcro           {:mvn/version "2.7.0"}
+           fulcrologic/fulcro-incubator {:mvn/version "0.0.27"}
+           hiccup                       {:mvn/version "2.0.0-alpha1"}
+           com.taoensso/timbre          {:mvn/version "4.10.0"}
+           ;; cider/cider-nrepl            {:mvn/version "0.20.0"}
+           ;; refactor-nrepl               {:mvn/version "2.4.0"}
+           }
+ :paths   ["src" "resources"]
+ :aliases {}}
