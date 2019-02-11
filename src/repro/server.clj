@@ -34,24 +34,9 @@
                :body-content app-html})))
 
 (defn index-html []
-  (let [initial-tree (prim/get-initial-state root/Root {})
-        initial-db   (ssr/build-initial-state initial-tree root/Root)
-        router-ident (prim/get-ident root/RootRouter {})
-        instance-id  (second router-ident)
-        {:keys [target matching-prefix]} (dr/route-target root/RootRouter ["results"])
-        target-ident (dr/will-enter+ target nil nil)        ; Target in this example needs neither
-        params       {::uism/asm-id           instance-id
-                      ::uism/state-machine-id (::state-machine-id dr/RouterStateMachine)
-                      ::uism/event-data       (merge
-                                                {:path-segment matching-prefix
-                                                 :router       (vary-meta router-ident assoc
-                                                                 :component root/RootRouter)
-                                                 :target       (vary-meta target-ident assoc
-                                                                 :component target)})
-                      ::uism/actor->ident     {:router (uism/with-actor-class router-ident root/RootRouter)}}
-        initial-db   (assoc-in initial-db [::uism/asm-id :RootRouter] (uism/new-asm params))
-        ui-root      (prim/factory root/Root)]
-    (generate-index-html initial-db (dom/render-to-str (ui-root initial-tree)))))
+  (let [ui-root (prim/factory root/Root)
+        {:keys [db props]} (dr/ssr-initial-state root/Root root/RootRouter ["results"])]
+    (generate-index-html db (dom/render-to-str (ui-root props)))))
 
 (defn -main []
   (spit (io/resource "public/index.html") (index-html))
